@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JuJuBit 仓库作业演示 · 规则 V1.09</title>
+<style>
+  :root {
+    --bg: #f3f5f7;
+    --ink: #1c2430;
+    --muted: #5c6b7a;
+    --line: #e2e7ee;
+    --card: #fff;
+    --side: #17202b;
+    --side-ink: #d7dee7;
+    --accent: #0f6e56;
+    --accent-ink: #fff;
+    --warn: #9a6700;
+    --warn-bg: #fff6e0;
+    --bad: #a3262c;
+    --bad-bg: #fdecec;
+    --ok-bg: #e7f6f1;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.5 "PingFang SC", "Noto Sans SC", sans-serif; color: var(--ink); background: var(--bg); }
+  button, input, select { font: inherit; }
+  button { cursor: pointer; }
+  .app { display: grid; grid-template-columns: 232px 1fr; min-height: 100vh; }
+  .side { background: var(--side); color: var(--side-ink); padding: 16px 12px 32px; position: sticky; top: 0; height: 100vh; overflow: auto; }
+  .brand { padding: 4px 8px 14px; }
+  .brand b { display: block; font-size: 16px; color: #fff; }
+  .brand span { color: #8ea0b3; font-size: 12px; }
+  .group { margin-top: 8px; }
+  .group > button { width: 100%; text-align: left; background: transparent; color: #9fb0c2; border: 0; padding: 6px 8px; font-weight: 600; }
+  .group a, .group button.item { display: block; width: 100%; text-align: left; background: transparent; border: 0; color: var(--side-ink); text-decoration: none; padding: 6px 8px 6px 16px; border-radius: 6px; }
+  .group a.on, .group button.item.on { background: #243244; color: #fff; }
+  .top { display: flex; align-items: center; gap: 12px; padding: 12px 20px; background: #fff; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .top .grow { flex: 1; }
+  .top .who { color: var(--muted); font-size: 12px; }
+  .main { padding: 18px 22px 48px; }
+  h1 { font-size: 20px; margin: 0 0 6px; }
+  h2 { font-size: 15px; margin: 18px 0 8px; }
+  .sub { color: var(--muted); margin: 0 0 14px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .stat, .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; }
+  .stat { padding: 12px 14px; text-align: left; color: inherit; width: 100%; }
+  .stat b { display: block; font-size: 20px; }
+  .stat span { color: var(--muted); font-size: 12px; }
+  .tw { overflow: auto; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+  .steps, .chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 12px; }
+  .steps span, .chips button { background: #fff; border: 1px solid var(--line); border-radius: 99px; padding: 2px 10px; font-size: 12px; color: var(--muted); }
+  .steps span.now, .chips button.on { background: var(--ok-bg); color: var(--accent); border-color: transparent; }
+  .ph { min-width: 120px; min-height: 72px; background: #eef2f6; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; color: var(--muted); padding: 8px; }
+  .ph img { width: 140px; height: 90px; object-fit: cover; border-radius: 6px; }
+  .mini { font-size: 12px; color: var(--muted); }
+  .card { padding: 14px 16px; margin-top: 12px; }
+  table { width: 100%; border-collapse: collapse; background: #fff; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; background: #fafbfc; }
+  .badge { display: inline-block; padding: 1px 8px; border-radius: 99px; background: #eef2f6; font-size: 12px; }
+  .badge.ok { background: var(--ok-bg); color: var(--accent); }
+  .badge.warn { background: var(--warn-bg); color: var(--warn); }
+  .badge.bad { background: var(--bad-bg); color: var(--bad); }
+  .btn { border: 1px solid var(--line); background: #fff; border-radius: 6px; padding: 6px 10px; }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .btn.ghost { background: transparent; }
+  input, select { border: 1px solid #cfd6df; border-radius: 6px; padding: 7px 8px; background: #fff; }
+  .note { background: var(--warn-bg); color: #6b4a00; padding: 10px 12px; border-radius: 8px; }
+  .oknote { background: var(--ok-bg); color: #0c5342; padding: 10px 12px; border-radius: 8px; }
+  .toast { position: fixed; right: 16px; bottom: 16px; max-width: 360px; background: #1c2430; color: #fff; padding: 12px 14px; border-radius: 8px; display: none; }
+  .toast.show { display: block; }
+  .split { display: grid; grid-template-columns: 1.3fr .7fr; gap: 12px; }
+  label.f { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+  .waybill { border: 1px dashed #9aa8b8; padding: 12px; border-radius: 8px; background: #fbfcfd; }
+  .badnote { background: var(--bad-bg); color: var(--bad); padding: 10px 12px; border-radius: 8px; }
+  .big { font-size: 22px; font-weight: 700; margin: 6px 0; }
+  .pda { font-size: 28px; font-weight: 700; letter-spacing: .04em; margin: 4px 0; }
+  tr.bad td { background: var(--bad-bg); color: var(--bad); }
+  tr.ok td { background: var(--ok-bg); }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); }
+  @media (max-width: 980px) {
+    .app { grid-template-columns: 1fr; }
+    .grid, .split { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><b>JuJuBit 仓库</b><span>集货仓杭州 · 已保存 · 规则 V1.09</span></div>
+    <nav id="nav"></nav>
+  </aside>
+  <div>
+    <header class="top">
+      <div class="grow">
+        <div class="who">这是可分享的规则 V1.09。右上角换岗位。演练时仓库管理员可以代各岗点一下，屏幕上仍写明这一步该谁做。刷新会回到这一版的初始数据。</div>
+      </div>
+      <label class="f">当前岗位
+        <select id="role">
+          <option>仓库管理员</option>
+          <option>收货员</option>
+          <option>质检员</option>
+          <option>上架员</option>
+          <option>拣货员</option>
+          <option>打包员</option>
+          <option>发货员</option>
+          <option>异常订单处理专员</option>
+          <option>调拨员</option>
+          <option>组装员</option>
+          <option>仓库主管</option>
+        </select>
+      </label>
+      <button class="btn" type="button" data-act="password">修改密码</button>
+      <button class="btn" type="button" data-act="lang">语言</button>
+      <button class="btn" type="button" data-act="notice">系统公告</button>
+      <button class="btn" type="button" data-act="reset">恢复演示数据</button>
+      <button class="btn" type="button" data-act="logout">退出</button>
+    </header>
+    <main class="main" id="main"></main>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="wms-v109.js"></script>
+</body>
+</html>
