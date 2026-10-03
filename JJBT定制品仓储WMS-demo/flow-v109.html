@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>JuJuBit 仓库作业演示 · 规则 V1.23</title>
+<title>JuJuBit 仓库作业演示 · 规则 V1.09</title>
 <style>
   :root {
     --bg: #f3f5f7;
@@ -34,8 +34,6 @@
   .group > button { width: 100%; text-align: left; background: transparent; color: #9fb0c2; border: 0; padding: 6px 8px; font-weight: 600; }
   .group a, .group button.item { display: block; width: 100%; text-align: left; background: transparent; border: 0; color: var(--side-ink); text-decoration: none; padding: 6px 8px 6px 16px; border-radius: 6px; }
   .group a.on, .group button.item.on { background: #243244; color: #fff; }
-  .group button.item.later { color: #7d8b9a; }
-  .group button.item.later.on { background: #1c2633; color: #c5d0dc; }
   .top { display: flex; align-items: center; gap: 12px; padding: 12px 20px; background: #fff; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
   .top .grow { flex: 1; }
   .top .who { color: var(--muted); font-size: 12px; }
@@ -90,13 +88,13 @@
 <body>
 <div class="app">
   <aside class="side">
-    <div class="brand"><b>JuJuBit 仓库</b><span>已保存 · 规则 V1.23</span></div>
+    <div class="brand"><b>JuJuBit 仓库</b><span>集货仓杭州 · 已保存 · 规则 V1.09</span></div>
     <nav id="nav"></nav>
   </aside>
   <div>
     <header class="top">
       <div class="grow">
-        <div class="who">这是已发布的规则 V1.23。右上角换岗位。刷新会回到这一版的初始数据。 <a href="flow-v109.html">已保存的 V1.09</a></div>
+        <div class="who">这是可分享的规则 V1.09。右上角换岗位。演练时仓库管理员可以代各岗点一下，屏幕上仍写明这一步该谁做。刷新会回到这一版的初始数据。</div>
       </div>
       <label class="f">当前岗位
         <select id="role">
@@ -111,7 +109,6 @@
           <option>调拨员</option>
           <option>组装员</option>
           <option>仓库主管</option>
-          <option>仓经理</option>
         </select>
       </label>
       <button class="btn" type="button" data-act="password">修改密码</button>
@@ -124,6 +121,6 @@
   </div>
 </div>
 <div class="toast" id="toast"></div>
-<script src="wms-v123.js"></script>
+<script src="wms-v109.js"></script>
 </body>
 </html>
